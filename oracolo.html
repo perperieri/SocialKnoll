@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knoll. - Oracolo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f5e5;
+        }
+        header {
+            background-color: #4a6741;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .oracolo-container {
+            width: 100%;
+            max-width: 600px;
+        }
+        #oracolo-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #4a6741;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        #chiedi-button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        #chiedi-button:hover, #chiedi-button:focus {
+            opacity: 0.8;
+        }
+        #chiedi-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #response {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Knoll. - Oracolo</h1>
+    </header>
+    <main>
+        <div class="oracolo-container">
+            <textarea id="oracolo-input" rows="4" placeholder="Presentati innanzi alla sua incarnazione e fai una domanda allo Knoll. (minimo 10 caratteri)"></textarea>
+            <button id="chiedi-button" disabled>Chiedi allo Knoll.</button>
+            <div id="response"></div>
+        </div>
+    </main>
+
+    <script>
+        const oracoloInput = document.getElementById('oracolo-input');
+        const chiediButton = document.getElementById('chiedi-button');
+        const responseDiv = document.getElementById('response');
+
+        oracoloInput.addEventListener('input', function() {
+            chiediButton.disabled = this.value.length < 10;
+        });
+
+        chiediButton.addEventListener('click', function() {
+            const text = oracoloInput.value;
+            const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
+            
+            const oracolo = JSON.stringify({
+                "richiesta": text,
+                "nome": visitorName
+            });
+
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = () => {
+                if (req.readyState == XMLHttpRequest.DONE) {
+                    console.log(req.responseText);
+                    responseDiv.textContent = "Risposta ricevuta. Controlla la console per i dettagli.";
+                    responseDiv.style.display = 'block';
+                }
+            };
+            req.open("POST", "https://api.jsonbin.io/v3/b", true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.setRequestHeader("X-Master-Key", "$2a$10$WF5QjL4Ya07UusX3IBLl1u5UJBiBYsSgUE.p08C/sT0QBk3cq/D32");
+            req.send(oracolo);
+
+            oracoloInput.value = '';
+            chiediButton.disabled = true;
+        });
+    </script>
+</body>
+</html>
