@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knoll. - Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f5e5;
+        }
+        header {
+            background-color: #4a6741;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        .big-button {
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .big-button:hover, .big-button:focus {
+            opacity: 0.8;
+        }
+        #oracolo { background-color: #e74c3c; }
+        #giudicami { background-color: #3498db; }
+        #giudicaci { background-color: #2ecc71; }
+        #greeting {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        #modify-name {
+            font-size: 0.9rem;
+            color: #4a6741;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+        #modify-name:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Knoll.</h1>
+    </header>
+    <main>
+        <div id="greeting"></div>
+        <div class="button-container">
+            <button id="oracolo" class="big-button" onclick="navigateTo('oracolo')">Oracolo</button>
+            <button id="giudicami" class="big-button" onclick="navigateTo('giudicami')">Giudicami</button>
+            <button id="giudicaci" class="big-button" onclick="navigateTo('giudicaci')">Giudicaci</button>
+        </div>
+    </main>
+
+    <script>
+        window.onload = function() {
+            const savedName = localStorage.getItem('visitorName');
+            const greeting = document.getElementById('greeting');
+            if (savedName) {
+                greeting.innerHTML = `Ciao ${savedName} <a id="modify-name" href="#" onclick="modifyName()">[modifica]</a>`;
+            } else {
+                greeting.innerHTML = `Benvenuto nello Knoll. <a id="modify-name" href="#" onclick="modifyName()">[inserisci nome]</a>`;
+            }
+        };
+
+        function navigateTo(page) {
+            // Qui puoi implementare la navigazione alle diverse pagine
+            alert(`Navigazione a ${page} (da implementare)`);
+        }
+
+        function modifyName() {
+            const newName = prompt("Inserisci il tuo nome:");
+            if (newName) {
+                localStorage.setItem('visitorName', newName);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
