@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knoll. - Oracolo</title>
+    <title>Knoll. - Giudicami</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -28,35 +28,25 @@
             align-items: center;
             padding: 1rem;
         }
-        .oracolo-container {
+        .giudicami-container {
             width: 100%;
             max-width: 600px;
+            text-align: center;
         }
-        #oracolo-input {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1rem;
-            border: 2px solid #4a6741;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        #chiedi-button {
+        #conferma-button {
             width: 100%;
             padding: 1rem;
             font-size: 1.2rem;
-            background-color: #e74c3c;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: opacity 0.3s;
+            margin-top: 2rem;
         }
-        #chiedi-button:hover, #chiedi-button:focus {
+        #conferma-button:hover, #conferma-button:focus {
             opacity: 0.8;
-        }
-        #chiedi-button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
         }
         #response {
             margin-top: 1rem;
@@ -69,34 +59,27 @@
 </head>
 <body>
     <header>
-        <h1>Knoll. - Oracolo</h1>
+        <h1>Knoll. - Giudicami</h1>
     </header>
     <main>
-        <div class="oracolo-container">
+        <div class="giudicami-container">
             <p>Presentati innanzi alla sua incarnazione.</p>
-            <textarea id="oracolo-input" rows="4" placeholder="Fai una domanda allo Knoll. (minimo 10 caratteri)"></textarea>
-            <button id="chiedi-button" disabled>Chiedi allo Knoll.</button>
+            <button id="conferma-button">Giudicami</button>
             <div id="response"></div>
         </div>
     </main>
 
     <script>
-        const oracoloInput = document.getElementById('oracolo-input');
-        const chiediButton = document.getElementById('chiedi-button');
+        const confermaButton = document.getElementById('conferma-button');
         const responseDiv = document.getElementById('response');
 
-        oracoloInput.addEventListener('input', function() {
-            chiediButton.disabled = this.value.length < 10;
-        });
-
-        chiediButton.addEventListener('click', function() {
-            const text = oracoloInput.value;
+        confermaButton.addEventListener('click', function() {
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
-
-            const oracolo = JSON.stringify({
-                "azione": "oracolo",
+            
+            const giudizio = JSON.stringify({
+                "azione": "giudizio",
                 "contenuto": {
-                    "richiesta": text,
+                    "modalita": "giudicami",
                     "nome": visitorName
                 }
             });
@@ -105,7 +88,7 @@
             req.onreadystatechange = () => {
                 if (req.readyState == XMLHttpRequest.DONE) {
                     console.log(req.responseText);
-                    responseDiv.textContent = "Risposta ricevuta. Controlla la console per i dettagli.";
+                    responseDiv.textContent = "Richiesta di giudizio inviata. Attendi il responso.";
                     responseDiv.style.display = 'block';
                 }
             };
@@ -113,10 +96,9 @@
             req.setRequestHeader("Content-Type", "application/json");
             req.setRequestHeader("X-Master-Key", "$2a$10$WF5QjL4Ya07UusX3IBLl1u5UJBiBYsSgUE.p08C/sT0QBk3cq/D32");
             req.setRequestHeader("X-Collection-Id", "66c74620ad19ca34f89980b2");
-            req.send(oracolo);
+            req.send(giudizio);
 
-            oracoloInput.value = '';
-            chiediButton.disabled = true;
+            confermaButton.disabled = true;
         });
     </script>
 </body>

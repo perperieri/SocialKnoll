@@ -91,8 +91,17 @@
         };
 
         function navigateTo(page) {
-            // Qui puoi implementare la navigazione alle diverse pagine
-            alert(`Navigazione a ${page} (da implementare)`);
+            switch(page) {
+                case 'oracolo':
+                    window.location.href = '/oracolo.html';
+                    break;
+                case 'giudicami':
+                case 'giudicaci':
+                    alert(`Navigazione a ${page} (da implementare)`);
+                    break;
+                default:
+                    console.error('Pagina non riconosciuta');
+            }
         }
 
         function modifyName() {
