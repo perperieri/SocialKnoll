@@ -105,7 +105,7 @@
             req.onreadystatechange = () => {
                 if (req.readyState == XMLHttpRequest.DONE) {
                     console.log(req.responseText);
-                    responseDiv.textContent = "Risposta ricevuta. Controlla la console per i dettagli.";
+                    responseDiv.textContent = "Richiesta inviata. Attendete il responso.";
                     responseDiv.style.display = 'block';
                 }
             };
