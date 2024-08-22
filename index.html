@@ -61,20 +61,16 @@
             const name = document.getElementById('nameInput').value;
             if (name) {
                 localStorage.setItem('visitorName', name);
-                updateGreeting(name);
+                // Reindirizza a home.html dopo aver salvato il nome
+                window.location.href = 'home.html';
             }
-        }
-
-        function updateGreeting(name) {
-            const greeting = document.getElementById('greeting');
-            greeting.textContent = `Benvenuto nello Knoll., ${name}`;
-            document.getElementById('nameForm').style.display = 'none';
         }
 
         window.onload = function() {
             const savedName = localStorage.getItem('visitorName');
             if (savedName) {
-                updateGreeting(savedName);
+                // Se il nome è già salvato, reindirizza immediatamente a home.html
+                window.location.href = 'home.html';
             }
         };
     </script>
