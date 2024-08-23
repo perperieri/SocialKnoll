@@ -19,9 +19,21 @@ export function sendMessage(message, confermaButton, responseDiv, confirm_text) 
                 confermaButton.disabled = false;
             }
         };
-        req.open("POST", url, true);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(message); // Send the message
+        
+        // Construct the URL with the SQS API version
+        const apiUrl = `${url}?Version=2012-11-05`;
+        
+        req.open("POST", apiUrl, true);
+        req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+        // Construct the request body
+        const params = new URLSearchParams({
+            Action: 'SendMessage',
+            MessageBody: message,
+            Version: '2012-11-05'  // SQS API version
+        });
+        
+        req.send(params.toString());
         confermaButton.disabled = true; // Disable the button to prevent multiple clicks
     });
 }
