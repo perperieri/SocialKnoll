@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knoll. - Giudicaci</title>
+    <title>Knoll. - Giudica Reliquia</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -28,25 +28,35 @@
             align-items: center;
             padding: 1rem;
         }
-        .giudicaci-container {
+        .oracolo-container {
             width: 100%;
             max-width: 600px;
-            text-align: center;
         }
-        #conferma-button {
+        #oracolo-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #4a6741;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        #chiedi-button {
             width: 100%;
             padding: 1rem;
             font-size: 1.2rem;
-            background-color: #2ecc71;
+            background-color: #e74c3c;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: opacity 0.3s;
-            margin-top: 2rem;
         }
-        #conferma-button:hover, #conferma-button:focus {
+        #chiedi-button:hover, #chiedi-button:focus {
             opacity: 0.8;
+        }
+        #chiedi-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
         #response {
             margin-top: 1rem;
@@ -59,37 +69,51 @@
 </head>
 <body>
     <header>
-        <h1>Knoll. - Giudicaci</h1>
+        <h1>Knoll. - Oracolo</h1>
     </header>
     <main>
-        <div class="giudicaci-container">
-            <p>Presentati innanzi alla sua incarnazione.</p>
-            <button id="conferma-button">Conferma</button>
+        <div class="oracolo-container">
+            <p>Il possessore della reliquia deve presentarsi davanti alla sua incarnazione, mostrando la reliquia.</p>
+            <textarea id="oracolo-input" rows="4" placeholder="Descrivi la reliquia. (minimo 10 caratteri)"></textarea>
+            <button id="chiedi-button" disabled>Chiedi allo Knoll.</button>
             <div id="response"></div>
         </div>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textArea = document.getElementById('oracolo-input');
+            const button = document.getElementById('chiedi-button');
+
+            textArea.addEventListener('input', function() {
+                button.disabled = this.value.trim().length < 10;
+            });
+        });
+    </script>
+    
     <script type="module">
         import { sendMessage } from './sender.js';
 
-        const confermaButton = document.getElementById('conferma-button');
+        const oracoloInput = document.getElementById('oracolo-input');
+        const chiediButton = document.getElementById('chiedi-button');
         const responseDiv = document.getElementById('response');
 
-        confermaButton.addEventListener('click', async function() { // Mark the function as async
+        chiediButton.addEventListener('click', async function() {
+            const text = oracoloInput.value;
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
             const visitorAdmin = localStorage.getItem('visitorAdmin') === 'true';
 
-            const giudizio = JSON.stringify({
-                "azione": "giudizio",
+            const oracolo = JSON.stringify({
+                "azione": "reliquia",
                 "contenuto": {
-                    "modalita": "giudicaci",
+                    "richiesta": text,
                     "nome": visitorName,
                     "admin": visitorAdmin
                 }
             });
 
             try {
-                const result = await sendMessage(giudizio, confermaButton, responseDiv, "Richiesta di giudizio collettivo inviata. Attendete il responso.");
+                const result = await sendMessage(oracolo, chiediButton, responseDiv, "Richiesta inviata. Attendete il responso.");
                 console.log('Message sent successfully:', result);
                 // You can add user feedback here, e.g., showing a success message
             } catch (error) {
@@ -97,6 +121,8 @@
                 // You can add user feedback here, e.g., showing an error message
             }
         });
+
+        oracoloInput.value = '';
     </script>
 </body>
 </html>

@@ -59,10 +59,16 @@
     <script>
         function saveName() {
             const name = document.getElementById('nameInput').value;
+
             if (name) {
-                localStorage.setItem('visitorName', name);
-                // Reindirizza a home.html dopo aver salvato il nome
-                window.location.href = 'home.html';
+                localStorage.setItem('visitorName', name.trim());
+                
+                // Check if a password was provided
+                if (password !== undefined) {
+                    const isAdmin = password.trim() === 'dioknoll.';
+                    localStorage.setItem('visitorAdmin', isAdmin);
+                } else {
+                    localStorage.setItem('visitorAdmin', false);
             }
         }
 

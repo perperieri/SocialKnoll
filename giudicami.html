@@ -77,12 +77,14 @@
 
         confermaButton.addEventListener('click', async function() {
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
+            const visitorAdmin = localStorage.getItem('visitorAdmin') === 'true';
 
             const giudizio = JSON.stringify({
                 "azione": "giudizio",
                 "contenuto": {
                     "modalita": "giudicami",
-                    "nome": visitorName
+                    "nome": visitorName,
+                    "admin": visitorAdmin
                 }
             });
 

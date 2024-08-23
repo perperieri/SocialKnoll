@@ -51,6 +51,7 @@
         #oracolo { background-color: #e74c3c; }
         #giudicami { background-color: #3498db; }
         #giudicaci { background-color: #2ecc71; }
+        #giudica-reliquia { background-color: #9b59b6; }
         #greeting {
             margin-bottom: 2rem;
             text-align: center;
@@ -76,17 +77,24 @@
             <button id="oracolo" class="big-button" onclick="navigateTo('oracolo')">Oracolo</button>
             <button id="giudicami" class="big-button" onclick="navigateTo('giudicami')">Giudicami</button>
             <button id="giudicaci" class="big-button" onclick="navigateTo('giudicaci')">Giudicaci</button>
+            <button id="giudica-reliquia" class="big-button" onclick="navigateTo('giudica-reliquia')" style="display: none;">Giudica Reliquia</button>
         </div>
     </main>
-
     <script>
         window.onload = function() {
             const savedName = localStorage.getItem('visitorName');
+            const isAdmin = localStorage.getItem('visitorAdmin') === 'true';
             const greeting = document.getElementById('greeting');
+            const giudicaReliquiaButton = document.getElementById('giudica-reliquia');
+            
             if (savedName) {
                 greeting.innerHTML = `Ciao ${savedName} <a id="modify-name" href="#" onclick="modifyName()">[modifica]</a>`;
             } else {
                 greeting.innerHTML = `Benvenuto nello Knoll. <a id="modify-name" href="#" onclick="modifyName()">[inserisci nome]</a>`;
+            }
+            
+            if (isAdmin) {
+                giudicaReliquiaButton.style.display = 'block';
             }
         };
 
@@ -100,6 +108,9 @@
                     break;
                 case 'giudicaci':
                     window.location.href = 'giudicaci.html';
+                    break;
+                case 'giudica-reliquia':
+                    window.location.href = 'giudica-reliquia.html';
                     break;
                 default:
                     console.error('Pagina non riconosciuta');

@@ -101,12 +101,14 @@
         chiediButton.addEventListener('click', async function() {
             const text = oracoloInput.value;
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
+            const visitorAdmin = localStorage.getItem('visitorAdmin') === 'true';
 
             const oracolo = JSON.stringify({
                 "azione": "oracolo",
                 "contenuto": {
                     "richiesta": text,
-                    "nome": visitorName
+                    "nome": visitorName,
+                    "admin": visitorAdmin
                 }
             });
 
