@@ -26,11 +26,14 @@ export function sendMessage(message, confermaButton, responseDiv, confirm_text) 
         req.open("POST", apiUrl, true);
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         
+        const messageDeduplicationId = Date.now().toString();
+
         // Construct the request body
         const params = new URLSearchParams({
             Action: 'SendMessage',
             MessageBody: message,
             MessageGroupId: 'default',
+            MessageDeduplicationId: messageDeduplicationId,
             Version: '2012-11-05'
         });
         
