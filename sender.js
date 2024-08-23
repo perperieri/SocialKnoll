@@ -19,7 +19,7 @@ export function sendMessage(message, confermaButton, responseDiv, confirm_text) 
                 confermaButton.disabled = false;
             }
         };
-        
+
         // Construct the URL with the SQS API version
         const apiUrl = `${url}?Version=2012-11-05`;
         
@@ -30,7 +30,8 @@ export function sendMessage(message, confermaButton, responseDiv, confirm_text) 
         const params = new URLSearchParams({
             Action: 'SendMessage',
             MessageBody: message,
-            Version: '2012-11-05'  // SQS API version
+            MessageGroupId: 'default',
+            Version: '2012-11-05'
         });
         
         req.send(params.toString());
