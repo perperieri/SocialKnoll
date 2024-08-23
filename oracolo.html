@@ -79,6 +79,17 @@
             <div id="response"></div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textArea = document.getElementById('oracolo-input');
+            const button = document.getElementById('chiedi-button');
+
+            textArea.addEventListener('input', function() {
+                button.disabled = this.value.trim().length < 10;
+            });
+        });
+    </script>
     
     <script type="module">
         import { sendMessage } from './sender.js';
@@ -87,11 +98,7 @@
         const chiediButton = document.getElementById('chiedi-button');
         const responseDiv = document.getElementById('response');
 
-        oracoloInput.addEventListener('input', function() {
-            chiediButton.disabled = this.value.length < 10;
-        });
-
-        chiediButton.addEventListener('click', function() {
+        chiediButton.addEventListener('click', async function() {
             const text = oracoloInput.value;
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
 
