@@ -101,6 +101,8 @@
                     "richiesta": text,
                     "nome": visitorName
                 }
+            });
+
             try {
                 const result = await sendMessage(oracolo, chiediButton, responseDiv, "Richiesta inviata. Attendete il responso.");
                 console.log('Message sent successfully:', result);

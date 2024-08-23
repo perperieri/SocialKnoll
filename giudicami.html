@@ -71,13 +71,13 @@
 
     <script type="module">
         import { sendMessage } from './sender.js';
-        
+
         const confermaButton = document.getElementById('conferma-button');
         const responseDiv = document.getElementById('response');
 
-        confermaButton.addEventListener('click', function() {
+        confermaButton.addEventListener('click', async function() {
             const visitorName = localStorage.getItem('visitorName') || 'Anonimo';
-            
+
             const giudizio = JSON.stringify({
                 "azione": "giudizio",
                 "contenuto": {
