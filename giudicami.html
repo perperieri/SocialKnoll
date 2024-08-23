@@ -69,7 +69,9 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
+        import { sendMessage } from './sender.js';
+        
         const confermaButton = document.getElementById('conferma-button');
         const responseDiv = document.getElementById('response');
 
@@ -84,21 +86,14 @@
                 }
             });
 
-            let req = new XMLHttpRequest();
-            req.onreadystatechange = () => {
-                if (req.readyState == XMLHttpRequest.DONE) {
-                    console.log(req.responseText);
-                    responseDiv.textContent = "Richiesta di giudizio inviata. Attendi il responso.";
-                    responseDiv.style.display = 'block';
-                }
-            };
-            req.open("POST", "https://api.jsonbin.io/v3/b", true);
-            req.setRequestHeader("Content-Type", "application/json");
-            req.setRequestHeader("X-Access-Key", "$2a$10$78aL9p6AKd72rihNSS/FkeNJldiHLRxf3GS5hzj7pABjQAqRLUwWm");
-            req.setRequestHeader("X-Collection-Id", "66c74620ad19ca34f89980b2");
-            req.send(giudizio);
-
-            confermaButton.disabled = true;
+            try {
+                const result = await sendMessage(giudizio, confermaButton, responseDiv, "Richiesta di giudizio inviata. Attendete il responso.");
+                console.log('Message sent successfully:', result);
+                // You can add user feedback here, e.g., showing a success message
+            } catch (error) {
+                console.error('Failed to send message:', error);
+                // You can add user feedback here, e.g., showing an error message
+            }
         });
     </script>
 </body>
