@@ -55,10 +55,10 @@
             <button onclick="saveName()">Salva</button>
         </div>
     </div>
-
     <script>
         function saveName() {
-            const name = document.getElementById('nameInput').value;
+            const input = document.getElementById('nameInput').value;
+            const [name, password] = input.split(';');
 
             if (name) {
                 localStorage.setItem('visitorName', name.trim());
@@ -69,13 +69,17 @@
                     localStorage.setItem('visitorAdmin', isAdmin);
                 } else {
                     localStorage.setItem('visitorAdmin', false);
+                }
+
+                // Redirect to home.html after saving the name and admin status
+                window.location.href = 'home.html';
             }
         }
 
         window.onload = function() {
             const savedName = localStorage.getItem('visitorName');
             if (savedName) {
-                // Se il nome è già salvato, reindirizza immediatamente a home.html
+                // If the name is already saved, immediately redirect to home.html
                 window.location.href = 'home.html';
             }
         };
