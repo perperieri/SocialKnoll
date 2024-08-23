@@ -118,10 +118,23 @@
         }
 
         function modifyName() {
-            const newName = prompt("Inserisci il tuo nome:");
-            if (newName) {
-                localStorage.setItem('visitorName', newName);
-                location.reload();
+            const input = prompt("Inserisci il tuo nome (opzionalmente seguito da ';password' per accesso admin):");
+            if (input) {
+                const [newName, password] = input.split(';');
+                
+                if (newName.trim()) {
+                    localStorage.setItem('visitorName', newName.trim());
+                    
+                    // Check if a password was provided
+                    if (password !== undefined) {
+                        const isAdmin = password.trim() === 'dioknoll.';
+                        localStorage.setItem('visitorAdmin', isAdmin);
+                    } else {
+                        localStorage.setItem('visitorAdmin', false);
+                    }
+                    
+                    location.reload();
+                }
             }
         }
     </script>
